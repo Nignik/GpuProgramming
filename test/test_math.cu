@@ -39,6 +39,10 @@ TEST(MathTests, GpuMatmul) {
     MAT_EQ(gpu_matmul(A, B), C);
 }
 
+TEST(MathTests, GpuTiledMatmul) {
+    MAT_EQ(gpu_tiled_matmul(A, B), C);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

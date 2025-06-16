@@ -3,7 +3,7 @@
 
 #include "../src/matmul.cu"
 
-constexpr int R = 100, C = 100;
+constexpr int R = 512, C = 512;
 
 mat<R, C> A;
 mat<R, C> B;
@@ -35,14 +35,19 @@ static void BM_GpuMatmul(benchmark::State& state) {
     for (auto _ : state)
         benchmark::DoNotOptimize(gpu_matmul(A, B));
 }
+static void BM_GpuTiledMatmul(benchmark::State& state)
+{
+    for (auto _ : state)
+        benchmark::DoNotOptimize(gpu_tiled_matmul(A, B));
+}
 
-BENCHMARK(BM_CpuMatmul);
-BENCHMARK(BM_CpuTiledMatmul);
+//BENCHMARK(BM_CpuMatmul);
+//BENCHMARK(BM_CpuTiledMatmul);
 BENCHMARK(BM_GpuMatmul);
+BENCHMARK(BM_GpuTiledMatmul);
 
 int main(int argc, char** argv)
 {
-
     A = random_matrix<R, C>(-1000.f, 1000.f);
     B = random_matrix<R, C>(-1000.f, 1000.f);
 
